@@ -4,15 +4,38 @@
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+    >
+        <as.mke.eatmem.view.GradientColorTextView
+            android:id="@+id/hi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="60dp"
+            android:text="HI"
+            android:textSize="120sp" />
 
+        <as.mke.eatmem.view.GradientColorTextView
+            android:id="@+id/hello"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="95sp"
+            android:layout_marginLeft="38dp"
+            android:text="你好"
+        />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
 
-       android:gravity="right|bottom"
+        android:layout_marginTop="80dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="2"
-        >
+        android:layout_weight="1"
+    >
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingactionbar"
             android:layout_width="wrap_content"
