@@ -43,7 +43,7 @@ public class FirstActivity extends AppCompatActivity {
         firstView=new ArrayList<View>();
         firstPagerAdapter=new FirstPagerAdapter(firstView);
 
-        FloatingActionButton floating1;
+        final FloatingActionButton floating1,floating2;
         GradientColorTextView hi,hello;
 
        lf= getLayoutInflater().from(this);
@@ -51,7 +51,7 @@ public class FirstActivity extends AppCompatActivity {
        view1=lf.inflate(R.layout.page1,null);
 
        floating1=view1.findViewById(R.id.floatingactionbar);
-        TranslateAnimation tran=new TranslateAnimation(0,0,500,0);
+       final TranslateAnimation tran=new TranslateAnimation(0,0,300,0);
         tran.setFillAfter(false);//动画结束之后回到原点，默认
         tran.setDuration(1000);
        floating1.setAnimation(tran);
@@ -64,11 +64,63 @@ public class FirstActivity extends AppCompatActivity {
        hi.setAnimation(alpha);
 
 
+       view2=lf.inflate(R.layout.page2,null);
+        floating2=view2.findViewById(R.id.floatingactionbar);
+
+        final TranslateAnimation tran2=new TranslateAnimation(0,0,300,0);
+        tran2.setFillAfter(false);//动画结束之后回到原点，默认
+        tran2.setDuration(1000);
+        floating2.setAnimation(tran2);
+
 
        firstView.add(view1);
+       firstView.add(view2);
+/*
+        View.OnClickListener next=new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        }
+        */
+
+       floating1.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            viewPager.setCurrentItem(2);
+                                        }
+                                    }
+       );
        //绑定
         viewPager.setAdapter(firstPagerAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position){
+
+                    case 0:
+
+                        floating1.startAnimation(tran);
+                        break;
+
+                    case 1:
+
+                        floating2.startAnimation(tran2);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

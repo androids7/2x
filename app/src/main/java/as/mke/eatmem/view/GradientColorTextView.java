@@ -40,7 +40,7 @@ public class GradientColorTextView extends AppCompatTextView {
                 new int[]{0xFFF56608, 0xFF3DA6F8},
                 null, Shader.TileMode.REPEAT);
         mPaint.setShader(mLinearGradient);
-        mPaint.setTypeface(Typeface.createFromAsset(c.getAssets(),"Roboto-Black.ttf"));
+        mPaint.setTypeface(Typeface.createFromAsset(c.getAssets(),"font.ttf"));
         canvas.drawText(mTipText, getMeasuredWidth() / 2 - mTextBound.width() / 2, getMeasuredHeight() / 2 + mTextBound.height() / 2, mPaint);
     }
 }
