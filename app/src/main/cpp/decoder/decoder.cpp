@@ -78,7 +78,7 @@ if (register_natives(env) < 0) {
 std::string a;
 const int flag=load.checkValidity(env);
 a=std::to_string(flag);
-LOGD(a.c_str());
+LOGD(a.c_str(),"");
 if(load.checkValidity(env)!=0){
 
 load.exitApplication(env,1);

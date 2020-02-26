@@ -4,11 +4,14 @@ cmake_minimum_required(VERSION 3.4.1)
 #link_directories( "../../../jniLIbs/armeabi-v7a/ ")
 
 file(GLOB_RECURSE srcs "*.cpp")
-add_library(
-            svgren
-            SHARED
-            IMPORTED
-            )
+
+set(LD_LIBRARY_PATH  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/)
+include_directories( F:/Game/2x/svgren/build/ndkLibs/include\ )
+link_directories(  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/)
+
+
+
+
 add_library( # Sets the name of the library.
         decoder-lib
 
@@ -28,6 +31,34 @@ add_library( # Sets the name of the library.
 # you want to add. CMake verifies that the library exists before
 # completing its build.
 
+find_library( # Sets the name of the path variable.
+        log-lib
+
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        log )
+
+
+
+add_library(
+        svgren
+        SHARED
+        IMPORTED
+)
+set_target_properties(
+        svgren
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libsvgren.so
+)
+
+
+find_library( # Sets the name of the path variable.
+        svgren-lib
+
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        svgren )
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -35,17 +66,11 @@ add_library( # Sets the name of the library.
 
 #include_directories( "build/ndkLibs/include/" )
 
-
-set_target_properties(
-    svgren
-    PROPERTIES IMPORTED_LOCATION
-    ${CMAKE_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libsvgren.so
-    )
-
-
 target_link_libraries( # Specifies the target library.
         decoder-lib
 
         # Links the target library to the log library
         # included in the NDK.
-        svgren)
+      svgren
+      ${log-lib}
+        )
