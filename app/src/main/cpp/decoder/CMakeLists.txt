@@ -19,7 +19,7 @@ add_library( # Sets the name of the library.
         #native-lib.cpp
         #register.cpp
          ${srcs}
-        Mymain.cpp
+        ../main/Mymain.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -39,7 +39,7 @@ add_library( # Sets the name of the library.
 set_target_properties(
     svgren
     PROPERTIES IMPORTED_LOCATION
-    ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libsvgren.so
+    ${CMAKE_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libsvgren.so
     )
 
 
