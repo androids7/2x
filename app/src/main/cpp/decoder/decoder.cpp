@@ -12,19 +12,20 @@
 #include <stdio.h>
 #include <assert.h>
 #include <signal.h>
-#include "androidlog.h"
-#include "eat.h"
+#include "../androidlog.h"
+
 #include <string>
+#include "../main/eat.h"
 extern "C" {
 //初始化和注册部分
-char * class_path_name = "as/mke/eatmem/MainActivity";
+char * class_path_name = "as/mke/eatmem/decoder/GVSDecoder";
 
 #ifndef NELEM
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
 #endif
-main load;
+Mymain load;
 static JNINativeMethod s_methods[] = {
-        {"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
+       // {"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
         /*
         {"native_createAndroid", "(Lcom/mide/Android;)V", (void*) native_createAndroid},
         {"native_exit","()V",(void*) native_exit},
@@ -77,7 +78,7 @@ if (register_natives(env) < 0) {
 std::string a;
 const int flag=load.checkValidity(env);
 a=std::to_string(flag);
-LOGD(a.c_str(),"");
+LOGD(a.c_str());
 if(load.checkValidity(env)!=0){
 
 load.exitApplication(env,1);

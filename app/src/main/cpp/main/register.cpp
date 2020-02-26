@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <signal.h>
-#include "androidlog.h"
+#include "../androidlog.h"
 #include "eat.h"
 #include <string>
 extern "C" {
@@ -17,7 +17,7 @@ extern "C" {
 #ifndef NELEM
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
 #endif
-main load;
+Mymain load;
 static JNINativeMethod s_methods[] = {
         {"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
         /*

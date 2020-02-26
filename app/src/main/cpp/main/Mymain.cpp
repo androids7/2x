@@ -2,16 +2,18 @@
 // Created by Administrator on 2020\2\24 0024.
 //
 
-#include "main.h"
+#include "Mymain.h"
 #include <string.h>
-#include "androidlog.h"
+
+#include "../androidlog.h"
+
 const char hexcode[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-class main;
+class Mymain;
 //签名信息
 static const char *app_sha1 = "A37DAC3A758D8726A7BD3EAA2FF2D1C1973257CA";
 static const char *app_debug_sha1 = "xxx2";
 
-char* main::getSha1(JNIEnv *env){
+char* Mymain::getSha1(JNIEnv *env){
     jobject context_object = getApplication(env);
     // 上下文对象
     jclass context_class = env -> GetObjectClass(context_object);
@@ -90,7 +92,7 @@ char* main::getSha1(JNIEnv *env){
     return hex_sha;
 }
 // 获取 Context 上下文方法：
-jobject main::getApplication(JNIEnv *env) {
+jobject Mymain::getApplication(JNIEnv *env) {
     jclass localClass = env -> FindClass("android/app/ActivityThread");
     if (localClass != NULL) {
         LOGI("class have find");
@@ -104,7 +106,7 @@ jobject main::getApplication(JNIEnv *env) {
     return NULL;
 }
 // 直接退出应用（java/lang/Systemz）
- void main::exitApplication(JNIEnv *env, jint flag) {
+ void Mymain::exitApplication(JNIEnv *env, jint flag) {
     jclass temp_clazz = env -> FindClass("java/lang/System");
     // 从 classpath 路径下搜索 ClassMethod ，并返回该类的 Class 对象
     jmethodID mid_static_method = env -> GetStaticMethodID(temp_clazz, "exit", "(I)V");
@@ -120,7 +122,7 @@ jboolean main::checkValidity(JNIEnv *env){
 }
  */
 
- int main::checkValidity(JNIEnv *env){
+ int Mymain::checkValidity(JNIEnv *env){
     char *sha1 = getSha1(env);
     // 比较签名
     return strcmp(sha1,app_sha1);

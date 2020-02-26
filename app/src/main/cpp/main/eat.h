@@ -5,5 +5,5 @@
 #ifndef 吃掉内存2_X_EAT_H
 #define 吃掉内存2_X_EAT_H
 
-#include "main.h"
+#include "Mymain.h"
 #endif //吃掉内存2_X_EAT_H
