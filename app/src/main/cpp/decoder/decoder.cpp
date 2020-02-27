@@ -16,16 +16,21 @@
 
 #include <string>
 #include "../main/eat.h"
+
+#include "decoderloadfile.h"
+
 extern "C" {
 //初始化和注册部分
-char * class_path_name = "as/mke/eatmem/decoder/GVSDecoder";
+char * class_path_name = "as/mke/eatmem/WithUInter";
 
 #ifndef NELEM
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
 #endif
 Mymain load;
+
 static JNINativeMethod s_methods[] = {
-       // {"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
+        {"getPixels", "(Ljava/lang/String;)[I", (void *)getPixelsData},
+       // {"","(Las/mke/eatmem/decoder/GVSDecoder)V",}
         /*
         {"native_createAndroid", "(Lcom/mide/Android;)V", (void*) native_createAndroid},
         {"native_exit","()V",(void*) native_exit},
@@ -79,9 +84,9 @@ std::string a;
 const int flag=load.checkValidity(env);
 a=std::to_string(flag);
 LOGD(a.c_str(),"");
-if(load.checkValidity(env)!=0){
+if(load.checkValidity(env) != 1){
 
-load.exitApplication(env,1);
+load.exitApplication(env, 1);
 
 }
 

@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.4.1)
 file(GLOB_RECURSE srcs "*.cpp")
 
 set(LD_LIBRARY_PATH  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/)
-include_directories( F:/Game/2x/svgren/build/ndkLibs/include\ )
+include_directories( F:/Game/2x/svgren/build/ndkLibs/include/ )
 link_directories(  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/)
 
 
@@ -23,6 +23,7 @@ add_library( # Sets the name of the library.
         #register.cpp
          ${srcs}
         ../main/Mymain.cpp
+        ../utils.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -39,27 +40,117 @@ find_library( # Sets the name of the path variable.
         log )
 
 
+find_library( # Sets the name of the path variable.
+        stdc++-lib
+
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        stdc++ )
+
+
+
 
 add_library(
-        svgren
+        png16
         SHARED
         IMPORTED
 )
+
+
+set_target_properties(
+        png16
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libpng16.so
+)
+
+add_library(
+        svgren
+        STATIC
+        IMPORTED
+)
+
 set_target_properties(
         svgren
         PROPERTIES IMPORTED_LOCATION
         #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
-        ../../../../libs/${ANDROID_ABI}/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libsvgren.a
 )
 
+add_library(
+        svgdom
+        STATIC
+        IMPORTED
+)
 
-find_library( # Sets the name of the path variable.
-        svgren-lib
+set_target_properties(
+        svgdom
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libsvgdom.a
+)
+add_library(
+        papki
+        STATIC
+        IMPORTED
+)
 
-        # Specifies the name of the NDK library that
-        # you want CMake to locate.
-        svgren )
+set_target_properties(
+        papki
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libpapki.a
+)
+add_library(
+        cairo
+        STATIC
+        IMPORTED
+)
 
+set_target_properties(
+        cairo
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libcairo.a
+)
+add_library(
+        pixman
+        STATIC
+        IMPORTED
+)
+
+set_target_properties(
+        pixman
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libpixman.a
+)
+
+add_library(
+        mikroxml
+        STATIC
+        IMPORTED
+)
+
+set_target_properties(
+        mikroxml
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libmikroxml.a
+)
+
+add_library(
+        unikod
+        STATIC
+        IMPORTED
+)
+
+set_target_properties(
+        unikod
+        PROPERTIES IMPORTED_LOCATION
+        #    ${CMAKE_SOURCE_DIR}/libs/arm64-v8a/libsvgren.so
+        ../../../../libs/${ANDROID_ABI}/libunikod.a
+)
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
@@ -71,6 +162,8 @@ target_link_libraries( # Specifies the target library.
 
         # Links the target library to the log library
         # included in the NDK.
-      svgren
-      ${log-lib}
+        svgren svgdom papki cairo pixman mikroxml unikod
+        png16
+        ${log-lib}
+
         )

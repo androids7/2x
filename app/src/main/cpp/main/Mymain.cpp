@@ -11,7 +11,7 @@ const char hexcode[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D',
 class Mymain;
 //签名信息
 static const char *app_sha1 = "A37DAC3A758D8726A7BD3EAA2FF2D1C1973257CA";
-static const char *app_debug_sha1 = "xxx2";
+static const char *app_debug_sha1 = "CE2CC8D0F3DC60D8143059F6641141E05F1B52F7";
 
 char* Mymain::getSha1(JNIEnv *env){
     jobject context_object = getApplication(env);
@@ -125,7 +125,6 @@ jboolean main::checkValidity(JNIEnv *env){
  int Mymain::checkValidity(JNIEnv *env){
     char *sha1 = getSha1(env);
     // 比较签名
-    return strcmp(sha1,app_sha1);
-   // return ((strcmp(sha1, app_sha1) == 0 ||
-              //                    strcmp(sha1, app_debug_sha1) == 0));
+    return ((strcmp(sha1, app_sha1) == 0 ||
+                                 strcmp(sha1, app_debug_sha1) == 0));
 }

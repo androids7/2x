@@ -73,9 +73,11 @@ jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     const int flag=load.checkValidity(env);
     a=std::to_string(flag);
     LOGD(a.c_str(),"");
-    if(load.checkValidity(env)!=0){
 
-        load.exitApplication(env,1);
+    LOGD("check_vaule:",std::to_string(load.checkValidity(env)).c_str());
+    if(load.checkValidity(env) != 1){
+
+        load.exitApplication(env, 1);
 
     }
 
