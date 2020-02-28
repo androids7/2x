@@ -29,7 +29,7 @@ char * class_path_name = "as/mke/eatmem/WithUInter";
 Mymain load;
 
 static JNINativeMethod s_methods[] = {
-        {"getPixels", "(Ljava/lang/String;)[I", (void *)getPixelsData},
+        {"getPixels", "(Ljava/lang/String;)[J", (void *)getPixelsData},
        // {"","(Las/mke/eatmem/decoder/GVSDecoder)V",}
         /*
         {"native_createAndroid", "(Lcom/mide/Android;)V", (void*) native_createAndroid},

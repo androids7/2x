@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include <svgdom/dom.hpp>
-
+#include "../global.h"
 void write_png(const char* filename, int width, int height, std::uint32_t *buffer){
     FILE *fp = NULL;
     png_structp png_ptr = NULL;
@@ -80,11 +80,27 @@ namespace{
     }
 }
 
+std::vector <long long> strcache;
 
-std::uint32_t *getPixels(const char * data){
+std::vector <long long>  *getPixels(const char * data){
+
+
+#ifdef DEBUG
+
 
     std::string filename="/sdcard/.cc/tiger.svg";
 
+
+     char dfile[] = "/sdcard/.cc/testapp.txt";
+
+
+
+     // 将文件指针与标准输出流绑定
+
+     FILE *fd = freopen(dfile, "w", stdout);
+
+
+#endif
 
     auto loadStart = getTicks();
     std::string datastr=data;
@@ -96,7 +112,47 @@ std::uint32_t *getPixels(const char * data){
 
     auto img = svgren::render(*dom);
     write_png("/sdcard/.cc/1.png", img.width, img.height,&*img.pixels.begin());
-    return 0;
+
+
+    // Write image data
+    int y=0;
+    auto p = &*img.pixels.begin();
+    //unsigned char *res=(unsigned char*)malloc(img.height*img.width);
+
+    int s=img.height*img.width;
+   //  char * r=(char*)malloc((s*sizeof( int)+10*2));
+    //for (y=0 ; y<img.height ; y++, p += img.width) {
+
+      // LOGD("",std::to_string((char)r[y]).c_str());
+    // }
+
+    //cache str
+    char *ca=(char*)malloc((10*2));
+
+printf("uint32_t size: %d\n",sizeof(uint32_t));
+for(std::vector<uint32_t>::iterator it=img.pixels.begin();it!=img.pixels.end();it++,y++) {
+
+    //sprintf(ca, "%u",* it);
+    strcache.push_back(*it);
+  // std::cout <<  ca<< std::endl;
+  //  std::cout <<  strcache[y]<< std::endl;
+}
+    // std::cout <<  r<< std::endl;
+   // y++;
+
+   LOGD("char_size","");
+
+#ifdef DEBUG
+
+fflush(stdout);
+//fclose(fd);
+
+#endif
+
+
+
+
+return  &strcache;
     //&*img.pixels.begin();
 
 }

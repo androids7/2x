@@ -5,5 +5,8 @@
 #ifndef 吃掉内存2_X_TEST_H
 #define 吃掉内存2_X_TEST_H
 
-std::uint32_t *getPixels(const char * data);
+#include <vector>
+
+//char *
+std::vector <long long>  *getPixels(const char * data);
 #endif //吃掉内存2_X_TEST_H

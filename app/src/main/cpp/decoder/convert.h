@@ -39,3 +39,83 @@ char* jstring2char(JNIEnv* env, jstring jstr) {
     env->ReleaseByteArrayElements(barr, ba, 0);
     return rtn;
 }
+
+/**
+ * 模拟处理一个数组，常用于对图片的处理
+ */
+ jintArray int2jint(JNIEnv * env, int *array){
+     //jsize       (*GetArrayLength)(JNIEnv*, jarray);
+    jsize length = sizeof(array);
+    jintArray jarray= env->NewIntArray(length);
+    env->SetIntArrayRegion(jarray,0,length,array);
+    //jboolean iscopy;
+    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
+
+    return jarray;
+
+}
+//获得数组的长度
+template <class T>
+int getStaticArrayLen(T& array)
+{//使用模板定义一 个函数getArrayLen,该函数将返回数组array的长度
+    return (sizeof(array) / sizeof(array[0]));
+}
+/*
+jlongArray long2jlong(JNIEnv * env,  long *array){
+    //jsize       (*GetArrayLength)(JNIEnv*, jarray);
+    jint length = (jint) getArrayCount(array);
+
+
+    jlongArray jarray= env->NewLongArray(length);
+    env->SetLongArrayRegion(jarray,0,length,(jlong *)array);
+    //jboolean iscopy;
+    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
+
+    return jarray;
+
+}
+ */
+jlongArray long2jlong(JNIEnv * env, long  *array,int lengths){
+    //jsize       (*GetArrayLength)(JNIEnv*, jarray);
+    jsize length = (jint) lengths;
+
+
+    jlongArray jarray= env->NewLongArray(length);
+    env->SetLongArrayRegion(jarray,0,length,(jlong *)array);
+    //jboolean iscopy;
+    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
+
+    return jarray;
+
+}
+
+
+jlongArray longlong2jlong(JNIEnv * env, long long *array,int lengths){
+    //jsize       (*GetArrayLength)(JNIEnv*, jarray);
+    jsize length = (jint) lengths;
+
+
+    jlongArray jarray= env->NewLongArray(length);
+    env->SetLongArrayRegion(jarray,0,length,(jlong *)array);
+    //jboolean iscopy;
+    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
+
+    return jarray;
+
+}
+
+
+
+jlongArray longlong2jlong(JNIEnv * env, long long *array){
+    //jsize       (*GetArrayLength)(JNIEnv*, jarray);
+    jsize length = sizeof(array);
+
+
+    jlongArray jarray= env->NewLongArray(length);
+    env->SetLongArrayRegion(jarray,0,length,(jlong *)array);
+    //jboolean iscopy;
+    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
+
+    return jarray;
+
+}

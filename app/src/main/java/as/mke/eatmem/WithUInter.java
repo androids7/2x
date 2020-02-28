@@ -3,6 +3,7 @@ package as.mke.eatmem;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +23,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +46,15 @@ public class WithUInter extends AppCompatActivity {
     }
     private String TAG="WithUInter";
 
+    public boolean isDEBUG() {
+        return DEBUG;
+    }
+
+    public void setDEBUG(boolean DEBUG) {
+        this.DEBUG = DEBUG;
+    }
+
+    boolean DEBUG;
     ViewPager viewPager;
     FirstPagerAdapter firstPagerAdapter;
     List<View> firstView;
@@ -46,10 +62,18 @@ public class WithUInter extends AppCompatActivity {
     private View view1,view2,view3;
     UInter parx;
     View v;
+
+    ByteArrayOutputStream bao;
+    PrintStream ps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //需要传入ui设计给的大小,初始化
+
+        bao=new ByteArrayOutputStream();
+        ps=new PrintStream(bao);
+        System.setOut(ps);
+        System.setErr(ps);
 
 
        // parx = new UInter(this);
@@ -71,12 +95,77 @@ public class WithUInter extends AppCompatActivity {
             String str=new String(by);
             setContentView(iv);
 
-            int[] arr=getPixels(str);
+
+           // char[] arr=
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            }).start();
+            //byte []arr=
+
+            /*
+            ByteArrayInputStream bin=new ByteArrayInputStream(arr);
+            int pixelDepth=32;
+            int bytesPerPixel = (pixelDepth / 8);
+            int[] pix=readBuffer(bin,800,800,bytesPerPixel,true,false);
+
+            */
+            /*
+           byte[] src=getPixels(str);
                     //str);
                     //R.layout.page1);
-         //   Bitmap bmp=Bitmap.createBitmap(arr,800,800,Bitmap.Config.ARGB_8888);
+            int[] iii=new int[src.length/4];
+            for(int i=0;i<iii.length;i++){
+                iii[i]= (int) ((src[0] & 0xFF)
+                        | ((src[1] & 0xFF)<<8)
+                        | ((src[2] & 0xFF)<<16)
+                        | ((src[3] & 0xFF)<<24));
+            }
 
-        //    iv.setImageBitmap(bmp);
+*/
+
+         long[] ll=  getPixels(str);
+         setDEBUG(false);
+         int[] pix=new int[ll.length];
+
+
+
+         int p=0;
+         for(long aa:ll){
+            int clr=new Long(aa).intValue();
+
+             int alpha= (clr & 0xff000000)>>24;
+             int red = (clr & 0x00ff0000) >> 16; // 取高两位
+             int green = (clr & 0x0000ff00) >> 8; // 取中两位
+             int blue = clr & 0x000000ff; // 取低两位
+             int color = Color.argb(alpha,blue,green,red);
+             pix[p]=color;
+
+             p++;
+         }
+
+
+         if(isDEBUG()) {
+             System.out.println(ll.length);
+             for (long a : ll) {
+                 System.out.println(a);
+
+             }
+
+         }
+            String filenames="/sdcard/.cc/log.txt";
+
+                new File(filenames).delete();
+                FileWriter fw=new FileWriter(filenames);
+                fw.write(new String(bao.toByteArray()));
+                fw.close();
+
+
+            Bitmap bmp=Bitmap.createBitmap(pix ,800,800,Bitmap.Config.ARGB_8888);
+
+           iv.setImageBitmap(bmp);
 
             // init();
 
@@ -129,5 +218,81 @@ public class WithUInter extends AppCompatActivity {
         viewPager.setAdapter(firstPagerAdapter);
 
     }
-    public native int[] getPixels(String xmldata);
+
+
+    private static final void writePixel(int[] pixels, final byte red, final byte green, final byte blue,
+                                         final byte alpha, final boolean hasAlpha, final int offset) {
+        int pixel;
+        if (hasAlpha) {
+            pixel = (red & 0xff);
+            pixel |= ((green & 0xff) << 8);
+            pixel |= ((blue & 0xff) << 16);
+            pixel |= ((alpha & 0xff) << 24);
+            pixels[offset / 4] = pixel;
+        } else {
+            pixel = (red & 0xff);
+            pixel |= ((green & 0xff) << 8);
+            pixel |= ((blue & 0xff) << 16);
+            pixels[offset / 4] = pixel;
+        }
+    }
+    private static int[] readBuffer(ByteArrayInputStream in, int width, int height, int srcBytesPerPixel, boolean acceptAlpha,
+                                    boolean flipVertically) throws IOException {
+
+        int[] pixels = new int[width * height];
+        byte[] buffer = new byte[srcBytesPerPixel];
+
+        final boolean copyAlpha = (srcBytesPerPixel == 4) && acceptAlpha;
+        final int dstBytesPerPixel = acceptAlpha ? srcBytesPerPixel : 3;
+        final int trgLineSize = width * dstBytesPerPixel;
+
+        int dstByteOffset = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int read = in.read(buffer, 0, srcBytesPerPixel);
+
+                if (read < srcBytesPerPixel) {
+                    return pixels;
+                }
+                int actualByteOffset = dstByteOffset;
+                if (!flipVertically) {
+                    actualByteOffset = ((height - y - 1) * trgLineSize) + (x * dstBytesPerPixel);
+                }
+
+                if (copyAlpha) {
+                    writePixel(pixels, buffer[2], buffer[1], buffer[0], buffer[3], true, actualByteOffset);
+                } else {
+                    writePixel(pixels, buffer[2], buffer[1], buffer[0], (byte) 0, false, actualByteOffset);
+                }
+
+                dstByteOffset += dstBytesPerPixel;
+            }
+        }
+        return pixels;
+    }
+
+    /**
+     * byte数组中取int数值
+     *
+     * @param src
+     *            byte数组
+     * @return int数值
+     */
+    public static int bytesToInt(byte[] src) {
+        int value;
+        value = (int) ((src[0] & 0xFF)
+                | ((src[1] & 0xFF)<<8)
+                | ((src[2] & 0xFF)<<16)
+                | ((src[3] & 0xFF)<<24));
+        return value;
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+    public native long[] getPixels(String xmldata);
 }
