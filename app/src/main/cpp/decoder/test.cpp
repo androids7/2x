@@ -88,19 +88,22 @@ std::vector <long long>  *getPixels(const char * data){
 #ifdef DEBUG
 
 
-    std::string filename="/sdcard/.cc/tiger.svg";
 
-
-     char dfile[] = "/sdcard/.cc/testapp.txt";
-
-
-
-     // 将文件指针与标准输出流绑定
-
-     FILE *fd = freopen(dfile, "w", stdout);
 
 
 #endif
+
+    std::string filename="/sdcard/.cc/tiger.svg";
+
+
+    char dfile[] = "/sdcard/.cc/testapp.txt";
+
+
+
+    // 将文件指针与标准输出流绑定
+
+    FILE *fd = freopen(dfile, "w", stdout);
+
 
     auto loadStart = getTicks();
     std::string datastr=data;

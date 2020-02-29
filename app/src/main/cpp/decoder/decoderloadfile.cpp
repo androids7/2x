@@ -19,58 +19,65 @@ using namespace std;
 
 void SplitString(const string& s, vector<string>& v, const string& c);
 
-jlongArray getPixelsData(JNIEnv *env, jobject  obj, jstring data) {
-
+jintArray getPixelsData(JNIEnv *env, jobject  obj, jstring data) {
 
 
 
     char *b=jstring2char(env,data);
-long a[15];
-for(int i=0;i<15;i++){
-    a[i]=1000+i;
-}
-auto allstr=getPixels(b);
+    auto allstr=getPixels(b);
 //SplitString(res,allstr,",");
     int size= allstr->size();
-printf("allstr size : %d\n",size);
+//printf("allstr size : %d\n",size);
 
 
-    long long arr[size];
+    //long long arr[size];
+    //像素数据
+    jint pixels[size];
 
 int i=0;
     char *str = new char[20];
+
+//long转int
 
 
     for(std::vector<long long>::iterator it=allstr->begin();it!=allstr->end();it++,i++) {
 
      //   strcpy(str, *it);
-       arr[i]=*it;
+       pixels[i]=(jlong)*it;
 
-#ifdef DEBUG
+       jint clr=pixels[i];
+        jint alpha= (clr & 0xff000000)>>24;
+        jint red = (clr & 0x00ff0000) >> 16; // 取高两位
+        jint green = (clr & 0x0000ff00) >> 8; // 取中两位
+        jint blue = clr & 0x000000ff; // 取低两位
+/*
+        long clr=pixels[i];
+        long alpha= (clr & 0xff000000)>>24;
+        long red = (clr & 0x00ff0000) >> 16; // 取高两位
+        long green = (clr & 0x0000ff00) >> 8; // 取中两位
+        long blue = clr & 0x000000ff; // 取低两位
 
-        std::cout <<  arr[i]<< std::endl;
+ */
+        pixels[i]= (alpha << 24) | (blue << 16) | (green << 8) | (red);
+        }
 
-#endif
 
+
+
+
+
+   allstr->clear();
+
+
+    return int2jintArray(env,pixels,size);
     }
-    allstr->clear();
-
-#ifdef DEBUG
-
-    fflush(stdout);
-
-#endif
-
-
-   // fclose(fd);
-
-    return longlong2jlong(env,arr,size);
+    //longlong2jlong(env,pixels,size);
     //longlong2jlong(env,arr);
 
     //int2jint(env,getPixels(b));
     //;
 
-}
+
 
 
 

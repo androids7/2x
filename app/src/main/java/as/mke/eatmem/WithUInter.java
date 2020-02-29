@@ -1,27 +1,21 @@
 package as.mke.eatmem;
 
 
-import android.content.res.Resources;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,16 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import as.mke.eatmem.adapter.FirstPagerAdapter;
-import as.mke.eatmem.adapter.ScreenAdaptation;
 import as.mke.eatmem.decoder.GVSDecoder;
 import as.mke.eatmem.processor.UInter;
 import as.mke.eatmem.view.GradientColorTextView;
 
 public class WithUInter extends AppCompatActivity {
 
-    static {
-        System.loadLibrary("decoder-lib");
-    }
     private String TAG="WithUInter";
 
     public boolean isDEBUG() {
@@ -88,7 +78,7 @@ public class WithUInter extends AppCompatActivity {
             ImageView iv=new ImageView(this);
 
 //            GVSDecoder g=new GVSDecoder();
-            InputStream in= getAssets().open("tiger.svg");
+            InputStream in= getAssets().open("tiger2.svg");
             byte [] by=new byte[in.available()];
             in.read(by);
 
@@ -103,71 +93,36 @@ public class WithUInter extends AppCompatActivity {
 
                 }
             }).start();
-            //byte []arr=
-
-            /*
-            ByteArrayInputStream bin=new ByteArrayInputStream(arr);
-            int pixelDepth=32;
-            int bytesPerPixel = (pixelDepth / 8);
-            int[] pix=readBuffer(bin,800,800,bytesPerPixel,true,false);
-
-            */
-            /*
-           byte[] src=getPixels(str);
-                    //str);
-                    //R.layout.page1);
-            int[] iii=new int[src.length/4];
-            for(int i=0;i<iii.length;i++){
-                iii[i]= (int) ((src[0] & 0xFF)
-                        | ((src[1] & 0xFF)<<8)
-                        | ((src[2] & 0xFF)<<16)
-                        | ((src[3] & 0xFF)<<24));
-            }
-
-*/
-
-         long[] ll=  getPixels(str);
-         setDEBUG(false);
-         int[] pix=new int[ll.length];
 
 
 
-         int p=0;
-         for(long aa:ll){
-            int clr=new Long(aa).intValue();
-
-             int alpha= (clr & 0xff000000)>>24;
-             int red = (clr & 0x00ff0000) >> 16; // 取高两位
-             int green = (clr & 0x0000ff00) >> 8; // 取中两位
-             int blue = clr & 0x000000ff; // 取低两位
-             int color = Color.argb(alpha,blue,green,red);
-             pix[p]=color;
-
-             p++;
-         }
 
 
-         if(isDEBUG()) {
-             System.out.println(ll.length);
-             for (long a : ll) {
-                 System.out.println(a);
-
-             }
-
-         }
-            String filenames="/sdcard/.cc/log.txt";
-
-                new File(filenames).delete();
-                FileWriter fw=new FileWriter(filenames);
-                fw.write(new String(bao.toByteArray()));
-                fw.close();
 
 
-            Bitmap bmp=Bitmap.createBitmap(pix ,800,800,Bitmap.Config.ARGB_8888);
+
+
+
+
+            GVSDecoder decoder=new GVSDecoder();
+            int pixels[]=decoder.getPixels(str);
+          //  int[] pix=getPixels(str);
+
+            System.out.println("pix array length : "+pixels.length);
+            Bitmap bmp=Bitmap.createBitmap(pixels ,800,800,Bitmap.Config.ARGB_8888);
 
            iv.setImageBitmap(bmp);
 
+            VectorDrawable vd=new VectorDrawable();
+          //  vd.inflate();
             // init();
+
+            @SuppressLint("SdCardPath") String filenames="/sdcard/.cc/log.txt";
+
+            new File(filenames).delete();
+            FileWriter fw=new FileWriter(filenames);
+            fw.write(new String(bao.toByteArray()));
+            fw.close();
 
 
             long timeAfter = System.currentTimeMillis()-time;
@@ -294,5 +249,4 @@ public class WithUInter extends AppCompatActivity {
         super.onDestroy();
 
     }
-    public native long[] getPixels(String xmldata);
 }

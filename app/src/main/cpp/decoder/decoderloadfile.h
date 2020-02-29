@@ -10,7 +10,8 @@
 #include <jni.h>
 
 //jbyteArray
-jlongArray getPixelsData(JNIEnv *env,jobject  obj,jstring data);
+jintArray getPixelsData(JNIEnv *env,jobject  obj,jstring data);
+//jlongArray getPixelsData(JNIEnv *env,jobject  obj,jstring data);
 
 
 #endif //吃掉内存2_X_DECODERLOADFILE_H

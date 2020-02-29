@@ -43,9 +43,11 @@ char* jstring2char(JNIEnv* env, jstring jstr) {
 /**
  * 模拟处理一个数组，常用于对图片的处理
  */
- jintArray int2jint(JNIEnv * env, int *array){
+
+//动态数组必须传入数组大小
+ jintArray int2jintArray(JNIEnv * env, jint *array,int lengths){
      //jsize       (*GetArrayLength)(JNIEnv*, jarray);
-    jsize length = sizeof(array);
+    jint length =(jint)lengths;
     jintArray jarray= env->NewIntArray(length);
     env->SetIntArrayRegion(jarray,0,length,array);
     //jboolean iscopy;
@@ -105,17 +107,3 @@ jlongArray longlong2jlong(JNIEnv * env, long long *array,int lengths){
 }
 
 
-
-jlongArray longlong2jlong(JNIEnv * env, long long *array){
-    //jsize       (*GetArrayLength)(JNIEnv*, jarray);
-    jsize length = sizeof(array);
-
-
-    jlongArray jarray= env->NewLongArray(length);
-    env->SetLongArrayRegion(jarray,0,length,(jlong *)array);
-    //jboolean iscopy;
-    //jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);
-
-    return jarray;
-
-}

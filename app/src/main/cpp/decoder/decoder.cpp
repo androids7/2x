@@ -21,7 +21,7 @@
 
 extern "C" {
 //初始化和注册部分
-char * class_path_name = "as/mke/eatmem/WithUInter";
+char * class_path_name = "as/mke/eatmem/decoder/GVSDecoder";
 
 #ifndef NELEM
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
@@ -29,7 +29,8 @@ char * class_path_name = "as/mke/eatmem/WithUInter";
 Mymain load;
 
 static JNINativeMethod s_methods[] = {
-        {"getPixels", "(Ljava/lang/String;)[J", (void *)getPixelsData},
+     //   {"getPixelsNative", "(Ljava/lang/String;)[J", (void *)getPixelsData},
+        {"getPixelsNative", "(Ljava/lang/String;)[I", (void *)getPixelsData},
        // {"","(Las/mke/eatmem/decoder/GVSDecoder)V",}
         /*
         {"native_createAndroid", "(Lcom/mide/Android;)V", (void*) native_createAndroid},
