@@ -26,13 +26,6 @@
         android:layout_gravity="center|top"
         app:srcCompat="@drawable/ic_pager" />
 
-    <as.mke.eatmem.view.BookImageView
-        android:id="@+id/imagepagerleft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        app:srcCompat="@drawable/ic_pagerleft" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpagers"
         android:layout_width="match_parent"

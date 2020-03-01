@@ -66,15 +66,17 @@ public class WithUInter extends AppCompatActivity {
     MyAnimation my,my2;
     PrintStream ps;
     ImageView book;
-    BookImageView pager,pagerleft;
+    BookImageView pager;
     int startpos;
 
 
+    float positionOffset=0;
     int oldposition=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //需要传入ui设计给的大小,初始化
+
 
         bao=new ByteArrayOutputStream();
         ps=new PrintStream(bao);
@@ -100,7 +102,7 @@ public class WithUInter extends AppCompatActivity {
 
             book=findViewById(R.id.imagebook);
             pager=findViewById(R.id.imagepager);
-            pagerleft=findViewById(R.id.imagepagerleft);
+        //    pagerleft=findViewById(R.id.imagepagerleft);
 
           //  Animation rotate= AnimationUtils.loadAnimation(this,R.anim.bookrotate);
            my=new MyAnimation();
@@ -126,23 +128,27 @@ public class WithUInter extends AppCompatActivity {
 
 
             vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffsett, int positionOffsetPixels) {
+
+
+
 
                     tv.setText("posoffset:"+positionOffset);
-                    if(positionOffset!=0){
-                    pager.turnpage(-180*positionOffset);
-                    }
+                    pager.turnpage(-180 * positionOffset);
+                    positionOffset=positionOffsett;
                 }
 
 
                 @Override
                 public void onPageSelected(int position) {
 
-                    /*
-                    pager.stopturn();
-                    pagerleft.stopturn();
 
+                    pager.stopturn();
+
+                    /*
                     switch (position){
                         case 0:
 
@@ -161,10 +167,10 @@ public class WithUInter extends AppCompatActivity {
                             pager.turnpage(-180);
                             break;
                     }
-
+*/
                     oldposition=position;
 
-                     */
+
                 }
 
                 @Override
