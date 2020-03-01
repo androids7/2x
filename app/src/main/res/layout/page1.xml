@@ -1,53 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-<LinearLayout
     android:layout_width="match_parent"
-    android:layout_weight="0"
-    android:layout_height="wrap_content"
+    android:background="#75daad"
     android:orientation="vertical"
-    >
-    <as.mke.eatmem.view.GradientColorTextView
-        android:id="@+id/hi"
+    android:layout_height="match_parent">
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="欢迎使用 吃掉内存2.x"
+        android:textSize="38sp"
+    />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="60dp"
-        android:text="HII"
-        android:textSize="120sp" />
-
-    <as.mke.eatmem.view.GradientColorTextView
-        android:id="@+id/hello"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="95sp"
-        android:layout_marginLeft="38dp"
-        android:text="你好"
-/>
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-
-        android:layout_marginTop="80dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        >
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingactionbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="13dp"
-            android:layout_weight="3"
-            app:maxImageSize="120dp"
-            app:fabCustomSize="78dp"
-            app:backgroundTint="#FF229FFF"
-            android:src="@drawable/arrow"
-            app:elevation="20dp"
-            app:pressedTranslationZ="12dp" />
-    </LinearLayout>
+        android:text="一键回收内存泄漏的 App\n有效清除毒瘤占用，腾出内存空间"
+        android:textSize="28sp"
+        />
 </LinearLayout>

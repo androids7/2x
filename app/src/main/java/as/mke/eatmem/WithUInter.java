@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -60,16 +62,17 @@ public class WithUInter extends AppCompatActivity {
     private View view1,view2,view3;
     UInter parx;
     View v;
-    TextView tv;
+
     ByteArrayOutputStream bao;
     ViewPager vp;
     MyAnimation my,my2;
     PrintStream ps;
     ImageView book;
     BookImageView pager;
-    int startpos;
-
-
+     int NUMPAGES=3;
+     Context context;
+    LinearLayout circleLayout;
+    List<ImageView> guidePointList;
     float positionOffset=0;
     int oldposition=0;
     @Override
@@ -77,7 +80,7 @@ public class WithUInter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //需要传入ui设计给的大小,初始化
 
-
+        this.context=this;
         bao=new ByteArrayOutputStream();
         ps=new PrintStream(bao);
         System.setOut(ps);
@@ -100,6 +103,7 @@ public class WithUInter extends AppCompatActivity {
 
             setContentView(R.layout.guider_pager);
 
+            circleLayout=findViewById(R.id.circlelayout);
             book=findViewById(R.id.imagebook);
             pager=findViewById(R.id.imagepager);
         //    pagerleft=findViewById(R.id.imagepagerleft);
@@ -118,11 +122,14 @@ public class WithUInter extends AppCompatActivity {
             firstPagerAdapter=new FirstPagerAdapter(firstView);
             lf= getLayoutInflater().from(this);
 
-            view1=lf.inflate(R.layout.test,null);
-            tv=findViewById(R.id.tv);
+            view1=lf.inflate(R.layout.page1,null);
+            view2=lf.inflate(R.layout.page2,null);
             firstView.add(view1);
-            firstView.add(view1);
+            firstView.add(view2);
             firstView.add(new TextView(this));
+
+            NUMPAGES=firstView.size();
+            addGuidePointTolist();
             vp.setAdapter(firstPagerAdapter);
 
 
@@ -136,7 +143,7 @@ public class WithUInter extends AppCompatActivity {
 
 
 
-                    tv.setText("posoffset:"+positionOffset);
+
                     pager.turnpage(-180 * positionOffset);
                     positionOffset=positionOffsett;
                 }
@@ -147,6 +154,7 @@ public class WithUInter extends AppCompatActivity {
 
 
                     pager.stopturn();
+                    setGuidePoint(position);
 
                     /*
                     switch (position){
@@ -198,7 +206,7 @@ public class WithUInter extends AppCompatActivity {
 
 
 
-            init();
+            //init();
 
             @SuppressLint("SdCardPath") String filenames="/sdcard/.cc/log.txt";
 
@@ -216,6 +224,40 @@ public class WithUInter extends AppCompatActivity {
     }
 
     /**
+     设置引导点的状态(选中 |未选中)
+     */
+     private void setGuidePoint(int position) {
+         for (int i = 0; i < guidePointList.size(); i++) {
+             if (position == i) {
+                 guidePointList.get(i).setImageResource(R.drawable.shape_guide_point_active);
+             } else {
+                 guidePointList.get(i).setImageResource(R.drawable.shape_guide_point_deactive);
+             }
+         }
+     }
+    /**
+     *添加引导点到list
+     * */
+     private void addGuidePointTolist() {
+         guidePointList=new ArrayList<ImageView>();
+     float scale = getResources() . getDisplayMetrics() . density;
+     int padding = (int) (3 * scale + 0.5f);
+     for(int i=0;i<NUMPAGES;i++){
+     ImageView circle = new ImageView( context) ;
+     circle.setImageResource(R.drawable.shape_guide_point_deactive) ;
+     circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup. LayoutParams.WRAP_CONTENT,ViewGroup. LayoutParams . WRAP_CONTENT));
+
+     circle.setAdjustViewBounds(true);
+     circle.setPadding(padding, 0, padding, 0);
+     circleLayout. addView(circle);
+     guidePointList.add(circle);
+         setGuidePoint(0);
+     }
+
+
+     }
+
+     /**
      * dp和像素转换
      */
     private int dp2px(Context context, float dipValue) {
@@ -235,27 +277,27 @@ public class WithUInter extends AppCompatActivity {
 
         view1=lf.inflate(R.layout.page1,null);
 
-        floating1=view1.findViewById(R.id.floatingactionbar);
+       // floating1=view1.findViewById(R.id.floatingactionbar);
         final TranslateAnimation tran=new TranslateAnimation(0,0,300,0);
         tran.setFillAfter(false);//动画结束之后回到原点，默认
         tran.setDuration(1000);
-        floating1.setAnimation(tran);
+      //  floating1.setAnimation(tran);
 
-        hello=view1.findViewById(R.id.hello);
-        hi=view1.findViewById(R.id.hi);
+      //  hello=view1.findViewById(R.id.hello);
+      //  hi=view1.findViewById(R.id.hi);
         AlphaAnimation alpha=new AlphaAnimation(0.0f,1.f);
         alpha.setDuration(1800);
-        hello.setAnimation(alpha);
-        hi.setAnimation(alpha);
+      //  hello.setAnimation(alpha);
+      //  hi.setAnimation(alpha);
 
 
         view2=lf.inflate(R.layout.page2,null);
-        floating2=view2.findViewById(R.id.floatingactionbar);
+      //  floating2=view2.findViewById(R.id.floatingactionbar);
 
         final TranslateAnimation tran2=new TranslateAnimation(0,0,300,0);
         tran2.setFillAfter(false);//动画结束之后回到原点，默认
         tran2.setDuration(1000);
-        floating2.setAnimation(tran2);
+       // floating2.setAnimation(tran2);
 
 
         firstView.add(view1);
