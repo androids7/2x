@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#75daad"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
 
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="match_parent">
+    <LinearLayout
+
+        android:gravity="center|top"
+        android:background="#75daad"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="静态回收"
-        android:textSize="38sp"
+        android:textSize="20sp"
         />
 
     <TextView
+        android:paddingTop="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="动态加载回收运存\n高速 有效"
-        android:textSize="28sp"
+        android:text="高速 有效"
+        android:textSize="16sp"
         />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="动态加载回收运存"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
 </LinearLayout>

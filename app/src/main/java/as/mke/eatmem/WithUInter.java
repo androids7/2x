@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -73,6 +74,9 @@ public class WithUInter extends AppCompatActivity {
      Context context;
     LinearLayout circleLayout;
     List<ImageView> guidePointList;
+
+
+    LinearLayout bookoutlayout,booklayout;
     float positionOffset=0;
     int oldposition=0;
     @Override
@@ -104,7 +108,8 @@ public class WithUInter extends AppCompatActivity {
             setContentView(R.layout.guider_pager);
 
             circleLayout=findViewById(R.id.circlelayout);
-            book=findViewById(R.id.imagebook);
+            bookoutlayout=findViewById(R.id.bookoutlayout);
+            booklayout=findViewById(R.id.booklayout);
             pager=findViewById(R.id.imagepager);
         //    pagerleft=findViewById(R.id.imagepagerleft);
 
@@ -124,12 +129,15 @@ public class WithUInter extends AppCompatActivity {
 
             view1=lf.inflate(R.layout.page1,null);
             view2=lf.inflate(R.layout.page2,null);
+            view3=lf.inflate(R.layout.page3,null);
             firstView.add(view1);
             firstView.add(view2);
-            firstView.add(new TextView(this));
+            firstView.add(view3);
+
 
             NUMPAGES=firstView.size();
             addGuidePointTolist();
+            addArrow();
             vp.setAdapter(firstPagerAdapter);
 
 
@@ -156,6 +164,18 @@ public class WithUInter extends AppCompatActivity {
                     pager.stopturn();
                     setGuidePoint(position);
 
+                    if(position==2){
+                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,80),dp2px(context,80));
+                        booklayout.setLayoutParams(params);
+                        pager.setLayoutParams(params);
+                        bookoutlayout.setLayoutParams(params);
+                    }
+                    else{
+                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,200),dp2px(context,200));
+                        booklayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+                        pager.setLayoutParams(params);
+                        bookoutlayout.setLayoutParams(params);
+                    }
                     /*
                     switch (position){
                         case 0:
@@ -223,6 +243,12 @@ public class WithUInter extends AppCompatActivity {
         }
     }
 
+
+
+    private void addArrow()
+    {
+
+    }
     /**
      设置引导点的状态(选中 |未选中)
      */
@@ -251,6 +277,15 @@ public class WithUInter extends AppCompatActivity {
      circle.setPadding(padding, 0, padding, 0);
      circleLayout. addView(circle);
      guidePointList.add(circle);
+
+         ImageView arrow=new ImageView(context);
+         ViewGroup.LayoutParams params=  new ViewGroup.LayoutParams(ViewGroup. LayoutParams.WRAP_CONTENT,ViewGroup. LayoutParams . WRAP_CONTENT);
+
+        arrow.setPadding(padding, 0, padding, 0);
+         arrow.setLayoutParams(params);
+         arrow.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
+         circleLayout.addView(arrow);
+
          setGuidePoint(0);
      }
 

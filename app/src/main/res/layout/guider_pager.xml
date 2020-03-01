@@ -2,38 +2,58 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imagebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/ic_book" />
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/bookoutlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:layout_gravity="center"
+    >
+    <LinearLayout
+        android:id="@+id/booklayout"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+
+        android:layout_gravity="center"
+        android:background="@drawable/ic_book">
+
 
     <as.mke.eatmem.view.BookImageView
         android:id="@+id/imagepager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
         app:srcCompat="@drawable/ic_pager" />
-
+</LinearLayout>
+</LinearLayout>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpagers"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="bottom|center"
 
-        android:layout_weight="3" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_gravity="center|center_vertical"
+
+        android:layout_weight="1" />
+
 <LinearLayout
     android:id="@+id/circlelayout"
     android:orientation="horizontal"
-    android:layout_weight="4"
+
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_gravity="bottom|center"
     android:gravity="center"
-    />
-
+    >
+</LinearLayout>
+    </LinearLayout>
 </FrameLayout>

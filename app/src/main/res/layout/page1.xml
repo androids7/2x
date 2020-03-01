@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#75daad"
+
+    android:gravity="center"
     android:orientation="vertical"
     android:layout_height="match_parent">
+<LinearLayout
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="欢迎使用 吃掉内存2.x"
-        android:textSize="38sp"
-    />
+    android:background="#75daad"
+    android:orientation="vertical"
+    android:gravity="center|top"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="一键回收内存泄漏的 App\n有效清除毒瘤占用，腾出内存空间"
-        android:textSize="28sp"
+        android:text="欢迎使用 吃掉内存2.x"
+        android:textSize="20sp" />
+    <TextView
+        android:paddingTop="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="一键回收内存泄漏的 App"
+        android:textSize="16sp"
         />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="有效清除毒瘤占用，腾出内存空间"
+        android:textSize="16sp"
+        />
+</LinearLayout>
 </LinearLayout>
