@@ -2,14 +2,20 @@ package as.mke.eatmem;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import as.mke.eatmem.adapter.FirstPagerAdapter;
+import as.mke.eatmem.animation.MyAnimation;
 import as.mke.eatmem.decoder.GVSDecoder;
 import as.mke.eatmem.processor.UInter;
+import as.mke.eatmem.view.BookImageView;
 import as.mke.eatmem.view.GradientColorTextView;
 
 public class WithUInter extends AppCompatActivity {
@@ -52,9 +60,17 @@ public class WithUInter extends AppCompatActivity {
     private View view1,view2,view3;
     UInter parx;
     View v;
-
+    TextView tv;
     ByteArrayOutputStream bao;
+    ViewPager vp;
+    MyAnimation my,my2;
     PrintStream ps;
+    ImageView book;
+    BookImageView pager,pagerleft;
+    int startpos;
+
+
+    int oldposition=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +82,7 @@ public class WithUInter extends AppCompatActivity {
         System.setErr(ps);
 
 
-       // parx = new UInter(this);
+        parx = new UInter(this);
         try {
             long time = System.currentTimeMillis();
 
@@ -74,17 +90,85 @@ public class WithUInter extends AppCompatActivity {
          int size=   getAssets().open(filename).available();
          byte[]  data=new byte[size];
             getAssets().open(filename).read(data);
-            // v= parx.parx(new String(data));
-            ImageView iv=new ImageView(this);
+             v= parx.parx(new String(data));
 
-//            GVSDecoder g=new GVSDecoder();
-            InputStream in= getAssets().open("tiger2.svg");
-            byte [] by=new byte[in.available()];
-            in.read(by);
 
-            String str=new String(by);
-            setContentView(iv);
+//
 
+
+            setContentView(R.layout.guider_pager);
+
+            book=findViewById(R.id.imagebook);
+            pager=findViewById(R.id.imagepager);
+            pagerleft=findViewById(R.id.imagepagerleft);
+
+          //  Animation rotate= AnimationUtils.loadAnimation(this,R.anim.bookrotate);
+           my=new MyAnimation();
+            my2=new MyAnimation();
+           // my.setRepeatCount(Animation.INFINITE); //旋转的次数（无数次）
+            my.setFillEnabled(true);
+
+          //  my.setRepeatCount(Animation.INFINITE);
+            my.setRepeatMode(Animation.RESTART);
+            vp=findViewById(R.id.viewpagers);
+
+            firstView=new ArrayList<View>();
+            firstPagerAdapter=new FirstPagerAdapter(firstView);
+            lf= getLayoutInflater().from(this);
+
+            view1=lf.inflate(R.layout.test,null);
+            tv=findViewById(R.id.tv);
+            firstView.add(view1);
+            firstView.add(view1);
+            firstView.add(new TextView(this));
+            vp.setAdapter(firstPagerAdapter);
+
+
+
+            vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
+
+                }
+
+
+                @Override
+                public void onPageSelected(int position) {
+
+                    pager.stopturn();
+                    pagerleft.stopturn();
+
+                    switch (position){
+                        case 0:
+
+                            pagerleft.turnpage(180);
+
+
+                            break;
+                        case 1:
+                            if(oldposition==0)
+                            pager.turnpage(-180);
+                            if(oldposition==2)
+                                pagerleft.turnpage(180);
+
+                            break;
+                        case 2:
+                            pager.turnpage(-180);
+                            break;
+                    }
+
+                    oldposition=position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+
+                }
+
+            });
 
            // char[] arr=
             new Thread(new Runnable() {
@@ -103,19 +187,7 @@ public class WithUInter extends AppCompatActivity {
 
 
 
-
-            GVSDecoder decoder=new GVSDecoder();
-            int pixels[]=decoder.getPixels(str);
-          //  int[] pix=getPixels(str);
-
-            System.out.println("pix array length : "+pixels.length);
-            Bitmap bmp=Bitmap.createBitmap(pixels ,800,800,Bitmap.Config.ARGB_8888);
-
-           iv.setImageBitmap(bmp);
-
-            VectorDrawable vd=new VectorDrawable();
-          //  vd.inflate();
-            // init();
+            init();
 
             @SuppressLint("SdCardPath") String filenames="/sdcard/.cc/log.txt";
 
@@ -132,6 +204,13 @@ public class WithUInter extends AppCompatActivity {
         }
     }
 
+    /**
+     * dp和像素转换
+     */
+    private int dp2px(Context context, float dipValue) {
+        float m = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * m + 0.5f);
+    }
 
     public  void init() {
         viewPager=findViewById(parx.getIds().get("viewpager"));
@@ -172,59 +251,6 @@ public class WithUInter extends AppCompatActivity {
         firstView.add(view2);
         viewPager.setAdapter(firstPagerAdapter);
 
-    }
-
-
-    private static final void writePixel(int[] pixels, final byte red, final byte green, final byte blue,
-                                         final byte alpha, final boolean hasAlpha, final int offset) {
-        int pixel;
-        if (hasAlpha) {
-            pixel = (red & 0xff);
-            pixel |= ((green & 0xff) << 8);
-            pixel |= ((blue & 0xff) << 16);
-            pixel |= ((alpha & 0xff) << 24);
-            pixels[offset / 4] = pixel;
-        } else {
-            pixel = (red & 0xff);
-            pixel |= ((green & 0xff) << 8);
-            pixel |= ((blue & 0xff) << 16);
-            pixels[offset / 4] = pixel;
-        }
-    }
-    private static int[] readBuffer(ByteArrayInputStream in, int width, int height, int srcBytesPerPixel, boolean acceptAlpha,
-                                    boolean flipVertically) throws IOException {
-
-        int[] pixels = new int[width * height];
-        byte[] buffer = new byte[srcBytesPerPixel];
-
-        final boolean copyAlpha = (srcBytesPerPixel == 4) && acceptAlpha;
-        final int dstBytesPerPixel = acceptAlpha ? srcBytesPerPixel : 3;
-        final int trgLineSize = width * dstBytesPerPixel;
-
-        int dstByteOffset = 0;
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int read = in.read(buffer, 0, srcBytesPerPixel);
-
-                if (read < srcBytesPerPixel) {
-                    return pixels;
-                }
-                int actualByteOffset = dstByteOffset;
-                if (!flipVertically) {
-                    actualByteOffset = ((height - y - 1) * trgLineSize) + (x * dstBytesPerPixel);
-                }
-
-                if (copyAlpha) {
-                    writePixel(pixels, buffer[2], buffer[1], buffer[0], buffer[3], true, actualByteOffset);
-                } else {
-                    writePixel(pixels, buffer[2], buffer[1], buffer[0], (byte) 0, false, actualByteOffset);
-                }
-
-                dstByteOffset += dstBytesPerPixel;
-            }
-        }
-        return pixels;
     }
 
     /**
