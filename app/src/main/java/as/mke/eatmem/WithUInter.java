@@ -129,14 +129,17 @@ public class WithUInter extends AppCompatActivity {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-
-
+                    tv.setText("posoffset:"+positionOffset);
+                    if(positionOffset!=0){
+                    pager.turnpage(-180*positionOffset);
+                    }
                 }
 
 
                 @Override
                 public void onPageSelected(int position) {
 
+                    /*
                     pager.stopturn();
                     pagerleft.stopturn();
 
@@ -160,6 +163,8 @@ public class WithUInter extends AppCompatActivity {
                     }
 
                     oldposition=position;
+
+                     */
                 }
 
                 @Override

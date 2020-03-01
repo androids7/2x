@@ -29,7 +29,7 @@ public class BookImageView extends androidx.appcompat.widget.AppCompatImageView 
     public int state;
 
     Camera camera = new Camera();
-    private  int rotate=0;
+    private  float rotate=0;
     private float interpolatedTime=0;
     int centerX, centerY;
     Transformation tr;
@@ -78,20 +78,20 @@ public class BookImageView extends androidx.appcompat.widget.AppCompatImageView 
     }
 
 
-   public void turnpage(int rotate)
+   public void turnpage(float rotate)
    {
        this.rotate=rotate;
        if(state == STATE_PLAYING){
 
        angle = (angle+ angle)%rotate;//可以取余也可以不取，看实际的需求
-       bookanim.cancel();
-       stopturn();
+      bookanim.cancel();
+      //stopturn();
        state = STATE_PAUSE;
        invalidate();
    }else {
        bookanim = new BookAnim();
        bookanim.setDuration(1000);
-       //bookanim.setFillAfter(true);
+       bookanim.setFillAfter(true);
        bookanim.setInterpolator(new DecelerateInterpolator());//动画时间线性渐变
       // bookanim.setRepeatCount(ObjectAnimator.INFINITE);
        startAnimation(bookanim);
@@ -138,10 +138,11 @@ public class BookImageView extends androidx.appcompat.widget.AppCompatImageView 
         @Override
         protected void applyTransformation(float interpolatedTimes, Transformation t) {
             final Matrix matrix = t.getMatrix();
-            angle=rotate * interpolatedTimes;
+            angle=rotate ;
+                    //* interpolatedTimes;
             camera.save();
             //中心是Y轴旋转，这里可以自行设置X轴 Y轴 Z轴
-            camera.rotateY(angle);//正数往右边翻
+            camera.rotateY((int)angle);//正数往右边翻
             //把我们的摄像头加在变换矩阵上
             camera.getMatrix(matrix);
             //设置翻转中心点
