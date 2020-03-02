@@ -19,11 +19,13 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -39,6 +41,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import as.mke.eatmem.adapter.ExpandableListViewAdapter;
 import as.mke.eatmem.adapter.FirstPagerAdapter;
 import as.mke.eatmem.animation.MyAnimation;
 import as.mke.eatmem.decoder.GVSDecoder;
@@ -135,6 +138,74 @@ public class WithUInter extends AppCompatActivity {
             view2=lf.inflate(R.layout.page2,null);
             view3=lf.inflate(R.layout.page3,null);
             userpage=lf.inflate(R.layout.userpaper,null);
+
+            TextView userxieyi=userpage.findViewById(R.id.userpaper);
+            userxieyi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     String[] groups = {"开发部", "人力资源部", "销售部"};
+
+                    //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}
+                   String[][] childs = {{"赵珊珊", "钱丹丹", "孙可可", "李冬冬"}, {"周大福", "吴端口", "郑非", "王疯狂"}, {"冯程程", "陈类", "楚哦", "魏王"}};
+
+                    ExpandableListView expand_list_id;
+                    View view=lf.inflate(R.layout.xieyi,null);
+
+
+                    expand_list_id=view.findViewById(R.id.expandableListView);
+                    ExpandableListViewAdapter adapter=new ExpandableListViewAdapter(context,groups,childs);
+                    expand_list_id.setAdapter(adapter);
+                    //默认展开全部个数组
+                    for(int i = 0; i < adapter.getGroupCount(); i++){
+
+                        expand_list_id.expandGroup(i);
+
+                    }
+                   // expand_list_id.expandGroup(0);
+                    //关闭数组某个数组，可以通过该属性来实现全部展开和只展开一个列表功能
+                    //expand_list_id.collapseGroup(0);
+
+
+                    AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                    AlertDialog dialog=builder.create();
+                    dialog.setView(view);
+                    dialog.show();
+
+
+                    expand_list_id.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                        @Override
+                        public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
+                          //  showToastShort(groups[groupPosition]);
+                            return false;
+                        }
+                    });
+                    //子视图的点击事件
+                    expand_list_id.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                        @Override
+                        public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                         //   showToastShort(childs[groupPosition][childPosition]);
+                            return true;
+                        }
+                    });
+                    //用于当组项折叠时的通知。
+                    expand_list_id.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+                        @Override
+                        public void onGroupCollapse(int groupPosition) {
+                           // showToastShort("折叠了数据___"+groups[groupPosition]);
+                        }
+                    });
+                    //
+                    //用于当组项折叠时的通知。
+                    expand_list_id.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                        @Override
+                        public void onGroupExpand(int groupPosition) {
+                       //     showToastShort("展开了数据___"+groups[groupPosition]);
+                        }
+                    });
+
+                }
+            });
+
             firstView.add(view1);
             firstView.add(view2);
             firstView.add(view3);
@@ -177,12 +248,12 @@ public class WithUInter extends AppCompatActivity {
 
                     if(position==2){
 
-
-                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,80),dp2px(context,80));
-                        params.gravity=Gravity.CENTER;
-                        pager.setLayoutParams(params);
-
-                        pager.setVisibility(View.VISIBLE);
+//
+//                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,80),dp2px(context,80));
+//                        params.gravity=Gravity.CENTER;
+//                        pager.setLayoutParams(params);
+//
+//                        pager.setVisibility(View.VISIBLE);
                         int height =bookoutlayout.getHeight();
                         ValueAnimator scaleY = ValueAnimator.ofInt(0, dp2px(context,80));
                         ////第二个高度 需要注意一下, 因为view默认是GONE  无法直接获取高度
@@ -200,7 +271,7 @@ public class WithUInter extends AppCompatActivity {
                         scaleY.setTarget(pager);
                         scaleY.setDuration(300);
                         scaleY.start();
-                        bookoutlayout.addView();
+                        bookoutlayout.addView(userpage);
                     }
 
                     else{
@@ -209,11 +280,12 @@ public class WithUInter extends AppCompatActivity {
                         LinearLayout.LayoutParams bookoutparams=new LinearLayout.LayoutParams (bookoutlayoutparams);
                         bookoutparams.weight=1;
                         booklayout.setLayoutParams(bookparams);
-                        pager.setLayoutParams(pagerparams);
+                        pager.setLayoutParams(bookparams);
 
                         pager.clearAnimation();
                         pager.invalidate();
                         bookoutlayout.setLayoutParams(bookoutparams);
+                        bookoutlayout.removeView(userpage);
                     }
 /*
                     if(position==2){
