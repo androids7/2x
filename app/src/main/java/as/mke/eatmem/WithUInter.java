@@ -1,28 +1,38 @@
 package as.mke.eatmem;
 
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AlertDialog;
@@ -47,6 +57,7 @@ import as.mke.eatmem.animation.MyAnimation;
 import as.mke.eatmem.decoder.GVSDecoder;
 import as.mke.eatmem.processor.UInter;
 import as.mke.eatmem.view.BookImageView;
+import as.mke.eatmem.view.DialogDiy;
 
 public class WithUInter extends AppCompatActivity {
 
@@ -80,6 +91,8 @@ public class WithUInter extends AppCompatActivity {
     LinearLayout circleLayout;
     List<ImageView> guidePointList;
 
+//渐变动画
+
 
     LinearLayout bookoutlayout,booklayout;
     ViewGroup.LayoutParams bookoutlayoutparams,booklayoutparams,pagerparams;
@@ -104,8 +117,8 @@ public class WithUInter extends AppCompatActivity {
             String filename="firstuse.xml";
          int size=   getAssets().open(filename).available();
          byte[]  data=new byte[size];
-            getAssets().open(filename).read(data);
-             v= parx.parx(new String(data));
+         //   getAssets().open(filename).read(data);
+             //v= parx.parx(new String(data));
 
 
 //
@@ -116,18 +129,25 @@ public class WithUInter extends AppCompatActivity {
             circleLayout=findViewById(R.id.circlelayout);
             bookoutlayout=findViewById(R.id.bookoutlayout);
             booklayout=findViewById(R.id.booklayout);
+
             pager=findViewById(R.id.imagepager);
-        //    pagerleft=findViewById(R.id.imagepagerleft);
+//
+//           Animation rotate= AnimationUtils.loadAnimation(this,R.anim.addshow);
+//
+//           // my.setRepeatCount(Animation.INFINITE); //旋转的次数（无数次）
+//            booklayout.startAnimation(rotate);
+//            pager.startAnimation(rotate);
 
-          //  Animation rotate= AnimationUtils.loadAnimation(this,R.anim.bookrotate);
-           my=new MyAnimation();
-            my2=new MyAnimation();
-           // my.setRepeatCount(Animation.INFINITE); //旋转的次数（无数次）
-            my.setFillEnabled(true);
 
 
-            my.setRepeatMode(Animation.RESTART);
+         Animation bookup= AnimationUtils.loadAnimation(this,R.anim.bookup);
+
+         bookoutlayout.startAnimation(bookup);
+
+
+
             vp=findViewById(R.id.viewpagers);
+
 
             firstView=new ArrayList<View>();
             firstPagerAdapter=new FirstPagerAdapter(firstView);
@@ -142,50 +162,58 @@ public class WithUInter extends AppCompatActivity {
             userxieyi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                     String[] groups = {"许可范围", "权限声明", "云端服务","权利声明","免责范围","费用相关","修订日期"};
+
+
+                    String[] groups = {"许可范围", "权限声明", "云端服务","权利声明","免责范围","费用相关","修订日期"};
 
                     //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}
-                   String[][] childs = {{"用户可以非商业性、无限制量地下载、复制、分发、安装及使用本软件"}, {"获取网络状态，主要是检测是否连接网络", "获取其他数据、同步云端保存设置等"},
-                           {"服务器可能因为技术原因而无法服务，我们保证不泄漏您的个人隐私，传输过程中只加密部分重要数据，包括：", "", "云端设置信息",
-                                   "一个账号一般对应一部设备，若该手机恢复出厂设置而您已经激活了高级账号的将会失效。此时您需要手动恢复，若无法恢复请联系开发者","若您同意则将会注册您的设备ID，只涉及安卓唯一的ID码，并非串号"}
-                   ,{  "开发者拥有本软件的所有权和知识产权等全部权利","请您在使用本软件前，务必确定您使用的是正规渠道取得的","若您使用修改版本造成的数据损失，故障及其其他问题，我们不承担任何责任"
-                           ,"若您发现修改版本，您也通过邮箱向我们举报","在未取得开发者授权的情况下，禁止"," ","反向工程","反向编译","未经作者的允许修改本应用","盗用本软件的图片","二次具有商业的分发"},
-                           //免责范围
-                           {"在发布本软件或更新之前，开发者已对应用进行了测试"," ","但由于移动设备系统的多样性，不能保证本软件会兼容所有用户的移动设备，也无法保证用户在使用本软件过程中，不会出现故障"," ",
-                                   " ","因此使用本软件及其相关服务所存在的风险和一切后果将完全由其自己承担"},
-                           //费用相关
-                           {"软件中包含付费项目，您可以通过购买高级版来解除功能限制"," "," ","您需要自行负担使用本软件过程中产生的其他相关费用，如移动通讯提供商收取的费用"
-                                   ,"本软件的付费价格由开发者决定，由于电子软件技术一经付费不可退还"," "," ","如果您的购买不生效，可能是支付系统故障，也可以联系开发者进行处理"
-                   },{"2020 年 03 月 02 日"}};
+                    String[][] childs = {{"用户可以非商业性、无限制量地下载、复制、分发、安装及使用本软件"}, {"获取网络状态，主要是检测是否连接网络", "获取其他数据、同步云端保存设置等"},
+                            {"服务器可能因为技术原因而无法服务，我们保证不泄漏您的个人隐私，传输过程中只加密部分重要数据，包括：", "云端设置信息",
+                                    "一个账号一般对应一部设备，若该手机恢复出厂设置而您已经激活了高级账号的将会失效。此时您需要手动恢复，若无法恢复请联系开发者","若您同意则将会注册您的设备ID，只涉及安卓唯一的ID码，并非串号"}
+                            ,{  "开发者拥有本软件的所有权和知识产权等全部权利","请您在使用本软件前，务必确定您使用的是正规渠道取得的","若您使用修改版本造成的数据损失，故障及其其他问题，我们不承担任何责任"
+                            ,"若您发现修改版本，您也通过邮箱向我们举报","在未取得开发者授权的情况下，禁止","反向工程","反向编译","未经作者的允许修改本应用","盗用本软件的图片","二次具有商业的分发"},
+                            //免责范围
+                            {"在发布本软件或更新之前，开发者已对应用进行了测试","但由于移动设备系统的多样性，不能保证本软件会兼容所有用户的移动设备，也无法保证用户在使用本软件过程中，不会出现故障"
+                                    ,"因此使用本软件及其相关服务所存在的风险和一切后果将完全由其自己承担"},
+                            //费用相关
+                            {"软件中包含付费项目，您可以通过购买高级版来解除功能限制","您需要自行负担使用本软件过程中产生的其他相关费用，如移动通讯提供商收取的费用"
+                                    ,"本软件的付费价格由开发者决定，由于电子软件技术一经付费不可退还","如果您的购买不生效，可能是支付系统故障，也可以联系开发者进行处理"
+                            },{"2020 年 03 月 02 日"}};
 
+                //    final View view=lf.inflate(R.layout.xieyi,null);
+
+                    LayoutInflater lf = LayoutInflater.from(context);
+                    View view = lf.inflate(R.layout.xieyi, null);
+                   // AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                   // AlertDialog diy=builder.create();
+                    DialogDiy diy= new DialogDiy(context);
+//                    WindowManager.LayoutParams wl=  diy.getWindow().getAttributes();
+//                    // diy.setActivity((WithUInter)this);
+//                    RelativeLayout.LayoutParams relayout=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+//
+//                    view.setLayoutParams(relayout);
+
+                    diy.show();
+                    diy.setContentView(view);
                     ExpandableListView expand_list_id;
-                    View view=lf.inflate(R.layout.xieyi,null);
 
-
-                    expand_list_id=view.findViewById(R.id.expandableListView);
-                    ExpandableListViewAdapter adapter=new ExpandableListViewAdapter(context,groups,childs);
+                    expand_list_id = view.findViewById(R.id.expandableListView);
+                    ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(context, groups, childs);
                     expand_list_id.setAdapter(adapter);
                     //默认展开全部个数组
-                    for(int i = 0; i < adapter.getGroupCount(); i++){
+                    for (int i = 0; i < adapter.getGroupCount(); i++) {
 
                         expand_list_id.expandGroup(i);
 
                     }
-                   // expand_list_id.expandGroup(0);
+                    // expand_list_id.expandGroup(0);
                     //关闭数组某个数组，可以通过该属性来实现全部展开和只展开一个列表功能
                     //expand_list_id.collapseGroup(0);
-
-
-                    AlertDialog.Builder builder=new AlertDialog.Builder(context);
-                    AlertDialog dialog=builder.create();
-                    dialog.setView(view);
-                    dialog.show();
-
 
                     expand_list_id.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                         @Override
                         public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
-                          //  showToastShort(groups[groupPosition]);
+                            //  showToastShort(groups[groupPosition]);
                             return false;
                         }
                     });
@@ -193,7 +221,7 @@ public class WithUInter extends AppCompatActivity {
                     expand_list_id.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                         @Override
                         public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                         //   showToastShort(childs[groupPosition][childPosition]);
+                            //   showToastShort(childs[groupPosition][childPosition]);
                             return true;
                         }
                     });
@@ -201,7 +229,7 @@ public class WithUInter extends AppCompatActivity {
                     expand_list_id.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
                         @Override
                         public void onGroupCollapse(int groupPosition) {
-                           // showToastShort("折叠了数据___"+groups[groupPosition]);
+                            // showToastShort("折叠了数据___"+groups[groupPosition]);
                         }
                     });
                     //
@@ -209,9 +237,11 @@ public class WithUInter extends AppCompatActivity {
                     expand_list_id.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                         @Override
                         public void onGroupExpand(int groupPosition) {
-                       //     showToastShort("展开了数据___"+groups[groupPosition]);
+                            //     showToastShort("展开了数据___"+groups[groupPosition]);
                         }
                     });
+
+
 
                 }
             });
@@ -273,7 +303,7 @@ public class WithUInter extends AppCompatActivity {
                             params.gravity=Gravity.CENTER;
                             params.width=animatorValue;
                             booklayout.setLayoutParams(params);
-
+                            pager.invalidate();
                             }});
                         scaleY.setTarget(pager);
                         scaleY.setDuration(300);
@@ -289,7 +319,7 @@ public class WithUInter extends AppCompatActivity {
                         booklayout.setLayoutParams(bookparams);
                         pager.setLayoutParams(bookparams);
 
-                        pager.clearAnimation();
+                       // pager.clearAnimation();
                         pager.invalidate();
                         bookoutlayout.setLayoutParams(bookoutparams);
                         bookoutlayout.removeView(userpage);
