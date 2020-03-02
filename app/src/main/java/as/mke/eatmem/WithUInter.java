@@ -1,6 +1,8 @@
 package as.mke.eatmem;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,7 +63,7 @@ public class WithUInter extends AppCompatActivity {
     FirstPagerAdapter firstPagerAdapter;
     List<View> firstView;
     LayoutInflater lf;
-    private View view1,view2,view3;
+    private View view1,view2,view3,userpage;
     UInter parx;
     View v;
 
@@ -77,6 +80,7 @@ public class WithUInter extends AppCompatActivity {
 
 
     LinearLayout bookoutlayout,booklayout;
+    ViewGroup.LayoutParams bookoutlayoutparams,booklayoutparams,pagerparams;
     float positionOffset=0;
     int oldposition=0;
     @Override
@@ -119,7 +123,7 @@ public class WithUInter extends AppCompatActivity {
            // my.setRepeatCount(Animation.INFINITE); //旋转的次数（无数次）
             my.setFillEnabled(true);
 
-          //  my.setRepeatCount(Animation.INFINITE);
+
             my.setRepeatMode(Animation.RESTART);
             vp=findViewById(R.id.viewpagers);
 
@@ -130,11 +134,14 @@ public class WithUInter extends AppCompatActivity {
             view1=lf.inflate(R.layout.page1,null);
             view2=lf.inflate(R.layout.page2,null);
             view3=lf.inflate(R.layout.page3,null);
+            userpage=lf.inflate(R.layout.userpaper,null);
             firstView.add(view1);
             firstView.add(view2);
             firstView.add(view3);
 
-
+            bookoutlayoutparams=bookoutlayout.getLayoutParams();
+            booklayoutparams=booklayout.getLayoutParams();
+            pagerparams=pager.getLayoutParams();
             NUMPAGES=firstView.size();
             addGuidePointTolist();
             addArrow();
@@ -152,7 +159,7 @@ public class WithUInter extends AppCompatActivity {
 
 
 
-                    pager.turnpage(-180 * positionOffset);
+                    pager.turnpage(-180 * (positionOffset));
                     positionOffset=positionOffsett;
                 }
 
@@ -163,19 +170,71 @@ public class WithUInter extends AppCompatActivity {
 
                     pager.stopturn();
                     setGuidePoint(position);
+                    ObjectAnimator obj=new ObjectAnimator();
+
+
+
 
                     if(position==2){
+
+
                         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,80),dp2px(context,80));
+                        params.gravity=Gravity.CENTER;
+                        pager.setLayoutParams(params);
+
+                        pager.setVisibility(View.VISIBLE);
+                        int height =bookoutlayout.getHeight();
+                        ValueAnimator scaleY = ValueAnimator.ofInt(0, dp2px(context,80));
+                        ////第二个高度 需要注意一下, 因为view默认是GONE  无法直接获取高度
+                        scaleY.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation)
+                            {int animatorValue = Integer.valueOf(animation.getAnimatedValue() + "");
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) pager.getLayoutParams();
+                            params.height = animatorValue;
+                            params.gravity=Gravity.CENTER;
+                            params.width=animatorValue;
+                            booklayout.setLayoutParams(params);
+
+                            }});
+                        scaleY.setTarget(pager);
+                        scaleY.setDuration(300);
+                        scaleY.start();
+                        bookoutlayout.addView();
+                    }
+
+                    else{
+                        LinearLayout.LayoutParams bookparams=new LinearLayout.LayoutParams (booklayoutparams);
+
+                        LinearLayout.LayoutParams bookoutparams=new LinearLayout.LayoutParams (bookoutlayoutparams);
+                        bookoutparams.weight=1;
+                        booklayout.setLayoutParams(bookparams);
+                        pager.setLayoutParams(pagerparams);
+
+                        pager.clearAnimation();
+                        pager.invalidate();
+                        bookoutlayout.setLayoutParams(bookoutparams);
+                    }
+/*
+                    if(position==2){
+                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,80),dp2px(context,80));
+
+                        params.gravity=Gravity.CENTER;
                         booklayout.setLayoutParams(params);
                         pager.setLayoutParams(params);
                         bookoutlayout.setLayoutParams(params);
                     }
                     else{
-                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(context,200),dp2px(context,200));
-                        booklayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
-                        pager.setLayoutParams(params);
-                        bookoutlayout.setLayoutParams(params);
+                        LinearLayout.LayoutParams bookparams=new LinearLayout.LayoutParams (booklayoutparams);
+                        bookparams.weight=1;
+                        LinearLayout.LayoutParams bookoutparams=new LinearLayout.LayoutParams (bookoutlayoutparams);
+                        bookoutparams.weight=1;
+                        booklayout.setLayoutParams(bookparams);
+                        pager.setLayoutParams(pagerparams);
+                        bookoutlayout.setLayoutParams(bookoutparams);
                     }
+
+ */
                     /*
                     switch (position){
                         case 0:
