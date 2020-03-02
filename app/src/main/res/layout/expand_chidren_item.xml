@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#464159"
-    android:layout_height="match_parent">
+    android:layout_height="50dp">
+
     <TextView
         android:id="@+id/parent_textview_id"
         android:layout_width="wrap_content"
-        android:text="测试"
-        android:textColor="#ffffff"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="18sp"
-        android:layout_height="match_parent" />
+        android:text="测试"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/parent_image"

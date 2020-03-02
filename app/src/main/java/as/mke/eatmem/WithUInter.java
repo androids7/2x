@@ -47,7 +47,6 @@ import as.mke.eatmem.animation.MyAnimation;
 import as.mke.eatmem.decoder.GVSDecoder;
 import as.mke.eatmem.processor.UInter;
 import as.mke.eatmem.view.BookImageView;
-import as.mke.eatmem.view.GradientColorTextView;
 
 public class WithUInter extends AppCompatActivity {
 
@@ -143,10 +142,13 @@ public class WithUInter extends AppCompatActivity {
             userxieyi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                     String[] groups = {"开发部", "人力资源部", "销售部"};
+                     String[] groups = {"许可范围", "权限声明", "云端服务","权利声明","免责范围","费用相关","修订日期"};
 
                     //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}
-                   String[][] childs = {{"赵珊珊", "钱丹丹", "孙可可", "李冬冬"}, {"周大福", "吴端口", "郑非", "王疯狂"}, {"冯程程", "陈类", "楚哦", "魏王"}};
+                   String[][] childs = {{"用户可以非商业性、无限制量地下载、复制、分发、安装及使用本软件"}, {"获取网络状态，主要是检测是否连接网络", "获取其他数据、同步云端保存设置等"},
+                           {"服务器可能因为技术原因而无法服务，我们保证不泄漏您的个人隐私，传输过程中只加密部分重要数据，包括：", "", "云端设置信息",
+                                   "一个账号一般对应一部设备，若该手机恢复出厂设置而您已经激活了高级账号的将会失效。此时您需要手动恢复，若无法恢复请联系开发者","若您同意则将会注册您的设备ID，只涉及安卓唯一的ID码，并非串号"}
+                   ,{  ""}};
 
                     ExpandableListView expand_list_id;
                     View view=lf.inflate(R.layout.xieyi,null);
@@ -437,7 +439,7 @@ public class WithUInter extends AppCompatActivity {
         firstPagerAdapter=new FirstPagerAdapter(firstView);
 
         final FloatingActionButton floating1,floating2;
-        GradientColorTextView hi,hello;
+
 
         lf= getLayoutInflater().from(this);
 
