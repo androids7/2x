@@ -54,6 +54,7 @@ import java.util.List;
 import as.mke.eatmem.adapter.ExpandableListViewAdapter;
 import as.mke.eatmem.adapter.FirstPagerAdapter;
 import as.mke.eatmem.animation.MyAnimation;
+import as.mke.eatmem.animation.ViewExpandAnimation;
 import as.mke.eatmem.decoder.GVSDecoder;
 import as.mke.eatmem.processor.UInter;
 import as.mke.eatmem.view.BookImageView;
@@ -214,6 +215,8 @@ public class WithUInter extends AppCompatActivity {
                         @Override
                         public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                             //  showToastShort(groups[groupPosition]);
+
+                            view.startAnimation(new ViewExpandAnimation(view));
                             return false;
                         }
                     });
