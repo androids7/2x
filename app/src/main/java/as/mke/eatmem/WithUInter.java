@@ -7,6 +7,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -99,6 +102,25 @@ public class WithUInter extends AppCompatActivity {
     ViewGroup.LayoutParams bookoutlayoutparams,booklayoutparams,pagerparams;
     float positionOffset=0;
     int oldposition=0;
+
+    SharedPreferences sharedPreferences = getSharedPreferences("first", Context.MODE_PRIVATE);
+    public void intoApp() {
+        Intent i=new Intent(WithUInter.this,MainApp.class);
+        startActivity(i);
+        finish();
+    }
+
+    public void checkFirstIn() {
+
+        //getString()第二个参数为缺省值，如果preference中不存在该key，将返回缺省值
+        boolean isFirstIn = sharedPreferences.getBoolean("in", true);
+        if(isFirstIn==false) {
+
+            intoApp();
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,13 +133,13 @@ public class WithUInter extends AppCompatActivity {
         System.setErr(ps);
 
 
-        parx = new UInter(this);
+      //  parx = new UInter(this);
         try {
             long time = System.currentTimeMillis();
 
-            String filename="firstuse.xml";
-         int size=   getAssets().open(filename).available();
-         byte[]  data=new byte[size];
+       //     String filename="firstuse.xml";
+      //   int size=   getAssets().open(filename).available();
+      //   byte[]  data=new byte[size];
          //   getAssets().open(filename).read(data);
              //v= parx.parx(new String(data));
 
@@ -125,6 +147,7 @@ public class WithUInter extends AppCompatActivity {
 //
 
 
+              checkFirstIn();
             setContentView(R.layout.guider_pager);
 
             circleLayout=findViewById(R.id.circlelayout);
@@ -196,7 +219,23 @@ public class WithUInter extends AppCompatActivity {
 
                     diy.show();
                     diy.setContentView(view);
+
+
+
                     ExpandableListView expand_list_id;
+
+                    Button btn_agree=view.findViewById(R.id.agreebtn);
+
+                    btn_agree.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putBoolean("first",false);
+                            editor.commit();//提交修改
+                            intoApp();//进入主界面
+                        }
+                    });
 
                     expand_list_id = view.findViewById(R.id.expandableListView);
                     ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(context, groups, childs);
