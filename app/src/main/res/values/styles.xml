@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
+        <!-- 获取焦点的颜色 -->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/colorPrimaryContent</item>
+
+        <!--popup背景颜色-->
+        <item name="android:popupBackground">@color/colorPopupBG</item>
+        <!--间距-->
+        <item name="android:dropDownVerticalOffset">1dp</item>
+
+        <item name="android:windowDisablePreview">true</item>
+
+
+    </style>
+    <style name="dialog_animation" parent="@android:style/Theme.Dialog">
+    <item name="android:windowEnterAnimation">@anim/dialog</item>
+    <item name="android:windowExitAnimation">@anim/dialogclose</item>
+
+    </style>
+</resources>

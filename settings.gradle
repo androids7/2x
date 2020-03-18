@@ -1,0 +1,4 @@
+include ':app'
+//,'svgren'
+//rootProject.name='吃掉内存2.x'
+

@@ -103,7 +103,7 @@ public class WithUInter extends AppCompatActivity {
     float positionOffset=0;
     int oldposition=0;
 
-    SharedPreferences sharedPreferences = getSharedPreferences("first", Context.MODE_PRIVATE);
+    SharedPreferences sharedPreferences;
     public void intoApp() {
         Intent i=new Intent(WithUInter.this,MainApp.class);
         startActivity(i);
@@ -146,7 +146,7 @@ public class WithUInter extends AppCompatActivity {
 
 //
 
-
+            sharedPreferences = getSharedPreferences("first", Context.MODE_PRIVATE);
               checkFirstIn();
             setContentView(R.layout.guider_pager);
 
@@ -231,7 +231,7 @@ public class WithUInter extends AppCompatActivity {
                         public void onClick(View v) {
 
                             SharedPreferences.Editor editor=sharedPreferences.edit();
-                            editor.putBoolean("first",false);
+                            editor.putBoolean("in",false);
                             editor.commit();//提交修改
                             intoApp();//进入主界面
                         }

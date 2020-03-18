@@ -1,9 +1,9 @@
 package as.mke.eatmem;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainApp extends Activity {
+public class MainApp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
