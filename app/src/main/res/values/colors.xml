@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#beebe9</color>
+    <color name="colorPrimary">#5e5ce6</color>
     <color name="colorPrimaryContent">#fffdf9</color>
-    <color name="colorPrimaryLight">#8ac6d1</color>
+    <color name="colorPrimaryLight">#5856D6</color>
     <color name="colorAccent">#4a47a3</color>
     <color name="colorPopupBG">#ffe3ed</color>
+    <color name="colorTeal">#5ac8fa</color>
+    <color name="colorSepa">#3c3c43</color>
+    <color name="colorOpaq">#c6c6c8</color>
 </resources>

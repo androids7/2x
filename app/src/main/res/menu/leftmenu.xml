@@ -6,7 +6,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/single_1"
-            android:icon="@drawable/ic_book"
+            android:icon="@drawable/unlock"
             android:title="解锁高级功能"
             app:actionLayout="@layout/bage_hint"/>
 

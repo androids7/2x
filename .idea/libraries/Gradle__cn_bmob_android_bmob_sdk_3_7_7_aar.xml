@@ -1,14 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: cn.bmob.android:bmob-sdk:3.7.7@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d218eb26d4b8f7b6debaaa38cbcb3553/jetified-bmob-sdk-3.7.7/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d218eb26d4b8f7b6debaaa38cbcb3553/jetified-bmob-sdk-3.7.7/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/241fdd41a725740c874d9e09e3af79bd/jetified-bmob-sdk-3.7.7/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/241fdd41a725740c874d9e09e3af79bd/jetified-bmob-sdk-3.7.7/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/241fdd41a725740c874d9e09e3af79bd/jetified-bmob-sdk-3.7.7/jars/libs/BmobSDK_3.7.7_20200417.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bmob.android/bmob-sdk/3.7.7/5de7125ce3c2195d2ee93f07dee917818419084a/bmob-sdk-3.7.7-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bmob.android/bmob-sdk/3.7.7/23f1011adf362cb285ced4ce8116948086d53a5e/bmob-sdk-3.7.7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bmob.android/bmob-sdk/3.7.7/8c0e4143c29f3cfc70902fe225d4c89ebb3177c2/bmob-sdk-3.7.7-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bmob.android/bmob-sdk/3.7.7/be9d0d374cc3549ebd1214794d2d7c0e0eb2d016/bmob-sdk-3.7.7-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

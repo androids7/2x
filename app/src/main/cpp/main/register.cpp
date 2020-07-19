@@ -12,14 +12,15 @@
 #include <string>
 extern "C" {
 //初始化和注册部分
- char * class_path_name = "as/mke/eatmem/MainActivity";
+ char * class_path_name = "as/mke/eatmem/MainApp";
 
 #ifndef NELEM
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
 #endif
 Mymain load;
 static JNINativeMethod s_methods[] = {
-        {"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
+        //{"native_init", "(Las/mke/eatmem/MainActivity;)V", (void *)load.exitApplication},
+        {"eatmem","()V",(void*)eatmem},
         /*
         {"native_createAndroid", "(Lcom/mide/Android;)V", (void*) native_createAndroid},
         {"native_exit","()V",(void*) native_exit},

@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+    <string name="about">这是一个打暑假工前的测试版本，应大家要求换了个UI。因为比较忙，涉猎范围小，更新要慢了。\n
+        其实这个软件还有些理念我没有实现，我希望能提供更多的DIY功能。2020.7.19《End》
+    </string>
+</resources>

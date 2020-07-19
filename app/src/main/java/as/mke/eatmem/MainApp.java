@@ -3,25 +3,31 @@ package as.mke.eatmem;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
+import as.mke.eatmem.animation.WaveViewBySinCos;
 import as.mke.eatmem.obj.MUser;
 
 import as.mke.eatmem.utils.Apputil;
@@ -72,10 +78,8 @@ public class MainApp extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+    public void initBombo(){
         //提供以下两种方式进行初始化操作：
 
         //第一：默认初始化
@@ -104,19 +108,64 @@ public class MainApp extends AppCompatActivity {
 
             });
 
-           user.login(new SaveListener<MUser>() {
-               @Override
-               public void done(MUser bmobUser, BmobException e) {
-                   if (e == null) {
-                       MUser user = BmobUser.getCurrentUser(MUser.class);
-                    toast("登陆成功："+ user.getUsername());
-                   } else {
-                      toast( "登录失败：" + e.getMessage());
-                   }
-               }
-           });
+            user.login(new SaveListener<MUser>() {
+                @Override
+                public void done(MUser bmobUser, BmobException e) {
+                    if (e == null) {
+                        MUser user = BmobUser.getCurrentUser(MUser.class);
+                        toast("登陆成功："+ user.getUsername());
+                    } else {
+                        toast( "登录失败：" + e.getMessage());
+                    }
+                }
+            });
         }
+    }
+
+
+    private RealtimeBlurView blurView;
+
+
+    private WaveViewBySinCos waveview;
+
+    public void register(){
+
+        waveview=findViewById(R.id.waveview);
+        waveview.setVisibility(View.GONE);
+        blurView=findViewById(R.id.blur);
+        blurView.setVisibility(View.GONE);
+//退出按钮
+        findViewById(R.id.footer_item_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                waveview.stopAnimation();
+                waveview.setVisibility(View.GONE);
+                finish();
+            }
+        });
+
+        findViewById(R.id.cleanmem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                waveview.setVisibility(View.VISIBLE);
+                waveview.startAnimation();
+                eatmem();
+            }
+        });
+
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //initBombo(); //初始化账号
         setContentView(R.layout.activity_main_app);
+
+        register();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -168,7 +217,28 @@ public class MainApp extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //安卓
-                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                if(menuItem.getTitle().equals("关于")){
+                    AlertDialog.Builder builder=new AlertDialog.Builder(MainApp.this);
+
+                    AlertDialog dialog=builder.create();
+                    blurView.setVisibility(View.VISIBLE);
+                    dialog.show();
+                    dialog.setContentView(LayoutInflater.from(MainApp.this).inflate(R.layout.about_alert,null));
+
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            blurView.setVisibility(View.GONE);
+                        }
+                    });
+
+
+                }else{
+
+                    toast("未设计该功能");
+                }
+
+              //  Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_LONG).show();
                 //设置哪个按钮被选中
 //                menuItem.setChecked(true);
                 //关闭侧边栏
@@ -182,5 +252,11 @@ public class MainApp extends AppCompatActivity {
     @SuppressLint("WrongConstant")
     public void toast(String s){
         Toast.makeText(getBaseContext(),s,0).show();
+    }
+
+    public native void eatmem();
+
+    static {
+        System.loadLibrary("native-lib");
     }
 }
